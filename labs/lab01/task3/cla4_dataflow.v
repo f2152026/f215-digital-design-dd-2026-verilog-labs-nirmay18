@@ -25,5 +25,28 @@ module cla4_dataflow(
   wire c1, c2, c3;
 
   // TODO: your dataflow (assign) statements go here.
+  assign #(2) p[0] = a[0] ^ b [0];
+  assign #(2) p[1] = a[1] ^ b[1];
+  assign #(2) p[2] = a[2] ^ b[2];
+  assign #(2) p[3] = a[3] ^ b[3];
+
+  assign #(2) g[0] = a[0] & b [0];
+  assign #(2) g[1] = a[1] & b [1];
+  assign #(2) g[2] = a[2] & b [2];
+  assign #(2) g[3] = a[3] & b [3];
+
+  assign #(2) c1   = g[0] | (p[0] & cin);
+  assign #(2) c2   = g[1] | (p[1] & g[0]) | (p[1] & p[0] & cin);
+  assign #(2) c3   = g[2] | (p[2] & g[1]) | (p[2] & p[1] & g[0]) | (p[2] & p[1] & p[0] & cin);
+  assign #(2) cout = g[3] | (p[3] & g[2]) | (p[3] & p[2] & g[1] ) | (p[3] & p[2] & p[1] & g[0]) | (p[3] & p[2] & p[1] & p[0] & cin);
+
+  // assign #(2) sum[0] = p[0] ^ cin;
+  // assign #(2) sum[1] = p[1] ^ c1;
+  // assign #(2) sum[2] = p[2] ^ c2;
+  // assign #(2) sum[3] = p[3] ^ c3;
+
+  // this one is much better to use
+  assign #(2) sum = p ^ {c3, c2, c1, cin};
+
 
 endmodule
