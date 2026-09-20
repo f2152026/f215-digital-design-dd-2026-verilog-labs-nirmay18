@@ -16,10 +16,13 @@ module FA_Gate(
 );
   wire ps, pc1, pc2;
 
-  xor (ps,  a,   b);
-  and (pc1, a,   b);
-  xor (sum, cin, ps);
-  and (pc2, cin, ps);
-  or  (cout, pc1, pc2);
+  or  (cout, pc1, pc2); // final carry  edit: made it to first to check what happens
+  xor (ps,  a,   b); // partial sum = a xor b
+  and (pc1, a,   b); // partial carry2 = a and b
+  xor (sum, cin, ps); // final sum
+  and (pc2, cin, ps); // partial carry2
+
+  // Nothing changes even after reordering any of the gates, 
+  //showing that verilog runs codes in a parallel manner
 
 endmodule
